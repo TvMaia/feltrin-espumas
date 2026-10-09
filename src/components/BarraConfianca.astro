@@ -1,0 +1,81 @@
+---
+// Seção 02 — Barra de confiança.
+// Fatos verificáveis, não adjetivos. O que não está confirmado aparece
+// marcado em amarelo para o Aldir fechar antes de publicar.
+import Dado from './Dado.astro';
+import { numeros, empresa } from '../dados';
+---
+
+<section class="barra">
+  <div class="caixa">
+    <ul class="barra__lista">
+      <li class="barra__item">
+        <span class="barra__forte">Laudo por lote</span>
+        <span class="barra__desc">
+          A densidade é conferida antes do corte e vai impressa na etiqueta
+        </span>
+      </li>
+      <li class="barra__item">
+        <span class="barra__forte">
+          Corte em até <Dado valor={numeros.prazoCorte} rotulo="prazo de corte" />
+        </span>
+        <span class="barra__desc">Peça cortada na medida, pronta para estofar</span>
+      </li>
+      <li class="barra__item">
+        <span class="barra__forte">
+          Entrega em <Dado valor={numeros.raioEntrega} rotulo="raio de entrega" />
+        </span>
+        <span class="barra__desc">
+          <Dado valor={empresa.cidade} rotulo="cidade da fábrica" /> e região
+        </span>
+      </li>
+      <li class="barra__item">
+        <span class="barra__forte">Fala com quem corta</span>
+        <span class="barra__desc">
+          Sem central de atendimento: o orçamento sai com quem opera a máquina
+        </span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .barra {
+    background: var(--navy-900);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: clamp(1.75rem, 3.5vw, 2.5rem) 0;
+  }
+
+  .barra__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.6rem 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  }
+
+  .barra__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--verde-600);
+  }
+
+  .barra__forte {
+    font-family: var(--display);
+    font-weight: 700;
+    font-stretch: 110%;
+    font-size: 1.1rem;
+    letter-spacing: -0.012em;
+    line-height: 1.15;
+  }
+
+  .barra__desc {
+    font-size: 0.86rem;
+    line-height: 1.45;
+    color: var(--cinza-500);
+  }
+</style>

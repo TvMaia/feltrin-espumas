@@ -1,0 +1,212 @@
+---
+// Seção 01 — Hero.
+// Promessa única do site, no H1. Nada de "conforto começa no material certo":
+// o visitante precisa saber em 5 segundos o que se vende, para quem, e qual
+// é a garantia técnica que ninguém mais dá por escrito.
+import Figura from './Figura.astro';
+import { zap } from '../dados';
+
+const linkB2B = zap(
+  'Olá! Sou de estofaria/marcenaria. Quero orçamento de espuma com laudo de densidade e corte sob medida.'
+);
+const linkB2C = zap('Olá! Quero reformar meu estofado. Pode me passar um orçamento?');
+---
+
+<section class="hero" id="conteudo">
+  <div class="hero__fundo" aria-hidden="true"></div>
+
+  <div class="caixa hero__caixa">
+    <div class="hero__texto">
+      <p class="olho">Espuma para estofaria, marcenaria e fábrica &middot; São Paulo</p>
+
+      <h1 class="h-mega hero__h1">
+        A densidade que está na nota<br />
+        <span class="hero__h1-destaque">é a densidade que está na espuma.</span>
+      </h1>
+
+      <p class="lede hero__lede">
+        Cada bloco que sai daqui é conferido por lote antes do corte. Você recebe a
+        peça na medida que mandou, com o código de densidade impresso na etiqueta —
+        e pode cobrar isso de nós.
+      </p>
+
+      <div class="btn-grupo hero__btns">
+        <a class="btn" href={linkB2B} target="_blank" rel="noopener">
+          Quero orçamento para minha produção
+          <svg class="btn__seta" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14m-6-7 7 7-7 7" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </a>
+        <a class="btn btn--linha" href={linkB2C} target="_blank" rel="noopener">
+          Vim reformar um sofá
+        </a>
+      </div>
+
+      <p class="sob-btn">
+        Atendimento direto no WhatsApp, sem formulário e sem cadastro.
+      </p>
+    </div>
+
+    <div class="hero__visual">
+      <Figura
+        src="img/hero-corte-espuma.png"
+        alt="Bloco de espuma de alta densidade sendo cortado na serra de fita, com a ficha de lote apoiada na bancada"
+        legenda="Antes do corte, o bloco é pesado e o resultado vai na ficha do pedido. O código que você vê na etiqueta é o mesmo que vai na sua nota."
+        largura={1920}
+        altura={2400}
+        prioridade={true}
+      />
+
+      <!-- Linha de cota sobre a imagem: o tema visual do site, aplicado. -->
+      <div class="hero__cota" aria-hidden="true">
+        <span class="hero__cota-tick"></span>
+        <span class="hero__cota-linha"></span>
+        <span class="hero__cota-rotulo mono">corte na sua medida</span>
+        <span class="hero__cota-linha"></span>
+        <span class="hero__cota-tick"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: clamp(3.5rem, 7vw, 6.5rem) 0 clamp(3.5rem, 7vw, 6rem);
+    overflow: hidden;
+  }
+
+  /* Atmosfera: luz de galpão vindo do alto à esquerda + grade técnica. */
+  .hero__fundo {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(
+        900px 620px at 12% -10%,
+        rgba(47, 192, 99, 0.16),
+        transparent 70%
+      ),
+      radial-gradient(700px 500px at 88% 8%, rgba(36, 64, 95, 0.55), transparent 72%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 88px 88px, 88px 88px;
+    pointer-events: none;
+  }
+
+  .hero__fundo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, var(--navy-800));
+  }
+
+  .hero__caixa {
+    position: relative;
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+
+  .hero__texto {
+    max-width: 44rem;
+  }
+
+  .hero__h1 {
+    margin-bottom: 1.6rem;
+  }
+
+  .hero__h1-destaque {
+    color: var(--espuma-300);
+  }
+
+  .hero__lede {
+    max-width: 48ch;
+  }
+
+  .hero__btns {
+    margin-top: 2.2rem;
+  }
+
+  .hero__visual {
+    position: relative;
+  }
+
+  .hero__cota {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+    color: var(--cinza-500);
+  }
+
+  .hero__cota-linha {
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .hero__cota-tick {
+    width: 1px;
+    height: 10px;
+    background: currentColor;
+    opacity: 0.6;
+    flex: none;
+  }
+
+  .hero__cota-rotulo {
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    flex: none;
+  }
+
+  /* Entrada: escalonada, uma vez só, no carregamento. */
+  .hero__texto > *,
+  .hero__visual {
+    animation: sobe 900ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  .hero__texto > :nth-child(1) {
+    animation-delay: 60ms;
+  }
+  .hero__texto > :nth-child(2) {
+    animation-delay: 150ms;
+  }
+  .hero__texto > :nth-child(3) {
+    animation-delay: 260ms;
+  }
+  .hero__texto > :nth-child(4) {
+    animation-delay: 370ms;
+  }
+  .hero__texto > :nth-child(5) {
+    animation-delay: 450ms;
+  }
+  .hero__visual {
+    animation-delay: 220ms;
+  }
+
+  @keyframes sobe {
+    from {
+      opacity: 0;
+      transform: translateY(26px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__texto > *,
+    .hero__visual {
+      animation: none;
+    }
+  }
+
+  @media (min-width: 980px) {
+    .hero__caixa {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    }
+  }
+</style>

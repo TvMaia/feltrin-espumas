@@ -1,0 +1,163 @@
+---
+// Seção 07 — Prova social.
+// Ogilvy: depoimento credível quase sempre funciona. Os textos abaixo vêm
+// com marcador de pendência: depoimento inventado é o jeito mais rápido de
+// perder a confiança que o resto do site constrói.
+import Figura from './Figura.astro';
+import Dado from './Dado.astro';
+import { depoimentos, numeros } from '../dados';
+---
+
+<section class="secao secao--clara" id="prova">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 05 / prova</span>
+      <div>
+        <p class="olho">Quem já compra aqui</p>
+        <h2 class="h-secao">
+          Estofarias que voltam há anos pedindo o mesmo código de lote.
+        </h2>
+      </div>
+    </div>
+
+    <div class="prova__numeros">
+      <div class="prova__num">
+        <span class="num prova__num-val">
+          <Dado valor={numeros.clientesAtivos} rotulo="clientes ativos" />
+        </span>
+        <span class="prova__num-rot">estofarias e marcenarias atendidas</span>
+      </div>
+      <div class="prova__num">
+        <span class="num prova__num-val">
+          <Dado valor={numeros.metrosCubicosMes} rotulo="volume mensal" />
+        </span>
+        <span class="prova__num-rot">de espuma cortada por mês</span>
+      </div>
+      <div class="prova__num">
+        <span class="num prova__num-val">
+          <Dado valor={numeros.cidadesEntrega} rotulo="cidades atendidas" />
+        </span>
+        <span class="prova__num-rot">cidades na rota de entrega</span>
+      </div>
+    </div>
+
+    <div class="grade grade--3 prova__grade">
+      {
+        depoimentos.map((d, i) => (
+          <blockquote class="cartao prova__card revela" style={`--atraso: ${i * 90}ms`}>
+            <span class="prova__aspas" aria-hidden="true">&ldquo;</span>
+            <p class="prova__texto">
+              {d.texto ?? <Dado rotulo={`depoimento ${i + 1}`} />}
+            </p>
+            <footer class="prova__autor">
+              <Figura
+                src={d.foto}
+                alt={`Retrato de cliente da Feltrin na própria oficina (${i + 1})`}
+                largura={1200}
+                altura={1200}
+                classe="prova__foto"
+              />
+              <span class="prova__autor-txt">
+                <strong>{d.nome ?? <Dado rotulo="nome" />}</strong>
+                <span class="prova__autor-neg">
+                  {d.negocio ?? <Dado rotulo="negócio" />}
+                  {' · '}
+                  {d.cidade ?? <Dado rotulo="cidade" />}
+                </span>
+              </span>
+            </footer>
+          </blockquote>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .prova__numeros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 1.75rem 2.5rem;
+    padding: 1.9rem 0;
+    margin-bottom: clamp(2.25rem, 4.5vw, 3.25rem);
+    border-top: 2px solid var(--navy-900);
+    border-bottom: 1px solid rgba(7, 15, 27, 0.16);
+  }
+
+  .prova__num {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .prova__num-val {
+    font-size: clamp(2.1rem, 1.3rem + 2vw, 3rem);
+    color: var(--navy-800);
+  }
+
+  .prova__num-rot {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--cinza-700);
+    max-width: 22ch;
+  }
+
+  .prova__card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .prova__aspas {
+    font-family: var(--display);
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 0.6;
+    color: var(--verde-600);
+  }
+
+  .prova__texto {
+    margin: 0;
+    flex: 1;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--navy-900);
+  }
+
+  .prova__autor {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(7, 15, 27, 0.14);
+  }
+
+  .prova__autor :global(.prova__foto) {
+    width: 46px;
+    flex: none;
+  }
+
+  .prova__autor :global(.prova__foto .figura__quadro),
+  .prova__autor :global(.prova__foto .ph) {
+    border-radius: 50%;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .prova__autor :global(.prova__foto .ph span) {
+    display: none;
+  }
+
+  .prova__autor-txt {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 0.86rem;
+    line-height: 1.35;
+  }
+
+  .prova__autor-neg {
+    color: var(--cinza-700);
+    font-size: 0.8rem;
+  }
+</style>

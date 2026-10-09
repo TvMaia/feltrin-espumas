@@ -1,0 +1,110 @@
+---
+// Seção 13 — Garantia e condições.
+// ATENÇÃO: todo item aqui é compromisso comercial. Nada foi inventado:
+// os termos entram marcados como pendentes até o Aldir definir por escrito.
+// Site que promete garantia que o dono não honra destrói mais do que constrói.
+import Dado from './Dado.astro';
+import Figura from './Figura.astro';
+---
+
+<section class="secao" id="garantia">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 11 / garantia</span>
+      <div>
+        <p class="olho">O que está por escrito</p>
+        <h2 class="h-secao">
+          Se a densidade entregue não bater com a pedida, o problema é nosso.
+        </h2>
+        <p class="lede" style="margin-top: 1.25rem">
+          Essa é a única promessa que o site faz, e ela é verificável: a etiqueta
+          está na peça, o lote está registrado, e a conferência pode ser repetida.
+        </p>
+      </div>
+    </div>
+
+    <div class="gar__grade">
+      <div class="gar__itens">
+        <div class="gar__item">
+          <h3 class="h-bloco">Divergência de densidade</h3>
+          <p>
+            Peça fora da especificação da etiqueta:{' '}
+            <Dado rotulo="política de troca por divergência de densidade" />
+          </p>
+        </div>
+        <div class="gar__item">
+          <h3 class="h-bloco">Erro de medida nosso</h3>
+          <p>
+            Corte fora da medida confirmada no pedido:{' '}
+            <Dado rotulo="política de recorte ou reposição" />
+          </p>
+        </div>
+        <div class="gar__item">
+          <h3 class="h-bloco">Prazo de entrega</h3>
+          <p>
+            Depois de aprovado o pedido:{' '}
+            <Dado rotulo="prazo de entrega e condição de frete" />
+          </p>
+        </div>
+        <div class="gar__item">
+          <h3 class="h-bloco">Formas de pagamento</h3>
+          <p>
+            <Dado rotulo="formas de pagamento e prazo para pessoa jurídica" />
+          </p>
+        </div>
+        <div class="gar__item">
+          <h3 class="h-bloco">Amostra antes de fechar</h3>
+          <p>
+            <Dado rotulo="regra de amostra: gratuita, cobrada ou só na oficina" />
+          </p>
+        </div>
+        <div class="gar__item">
+          <h3 class="h-bloco">Nota fiscal</h3>
+          <p>
+            <Dado rotulo="emissão de NF e regime tributário" />
+          </p>
+        </div>
+      </div>
+
+      <Figura
+        src="img/garantia-etiqueta-nota.png"
+        alt="Etiqueta de lote da peça de espuma apoiada sobre a nota fiscal do pedido, com os códigos coincidindo"
+        legenda="A etiqueta da peça e a nota do pedido, lado a lado. É literalmente isso que a garantia significa: dois documentos que precisam dizer a mesma coisa."
+        largura={2000}
+        altura={1500}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .gar__grade {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.25rem);
+    align-items: start;
+  }
+
+  .gar__itens {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+    gap: 1.75rem;
+  }
+
+  .gar__item {
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .gar__item p {
+    margin: 0.6rem 0 0;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.76);
+  }
+
+  @media (min-width: 980px) {
+    .gar__grade {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    }
+  }
+</style>

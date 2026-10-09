@@ -1,0 +1,156 @@
+---
+// Seção 00 — Barra de topo.
+// Fixa, fina, com as duas portas de público separadas desde o primeiro pixel.
+import { empresa, zap } from '../dados';
+
+const linkB2B = zap(
+  'Olá! Sou de estofaria/marcenaria e quero orçamento de espuma cortada sob medida.'
+);
+---
+
+<header class="topo">
+  <div class="caixa topo__caixa">
+    <a class="topo__marca" href="#" aria-label={`${empresa.nomeCompleto} — início`}>
+      <span class="topo__marca-nome">FELTRIN</span>
+      <span class="topo__marca-sub">Espumas &amp; Estofados</span>
+    </a>
+
+    <nav class="topo__nav" aria-label="Seções do site">
+      <a href="#densidades">Densidades</a>
+      <a href="#corte">Corte sob medida</a>
+      <a href="#publico">Para quem é</a>
+      <a href="#trabalhos">Trabalhos</a>
+      <a href="#duvidas">Dúvidas</a>
+    </nav>
+
+    <div class="topo__acao">
+      <a class="topo__fone mono" href={`tel:+${empresa.whatsapp}`}>
+        {empresa.telefone}
+      </a>
+      <a class="btn topo__btn" href={linkB2B} target="_blank" rel="noopener">
+        Pedir orçamento
+      </a>
+    </div>
+  </div>
+  <div class="topo__fio"></div>
+</header>
+
+<style>
+  .topo {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(7, 15, 27, 0.88);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+
+  .topo__caixa {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 68px;
+  }
+
+  .topo__marca {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-decoration: none;
+    flex: none;
+  }
+
+  .topo__marca-nome {
+    font-family: var(--display);
+    font-weight: 800;
+    font-stretch: 122%;
+    font-size: 1.22rem;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  .topo__marca-sub {
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.21em;
+    text-transform: uppercase;
+    color: var(--cinza-500);
+  }
+
+  .topo__nav {
+    display: none;
+    gap: 1.9rem;
+  }
+
+  .topo__nav a {
+    position: relative;
+    font-size: 0.87rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.76);
+    text-decoration: none;
+    padding: 0.35rem 0;
+    transition: color var(--t);
+  }
+
+  .topo__nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: var(--verde-400);
+    transition: width var(--t);
+  }
+
+  .topo__nav a:hover {
+    color: var(--branco);
+  }
+
+  .topo__nav a:hover::after {
+    width: 100%;
+  }
+
+  .topo__acao {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex: none;
+  }
+
+  .topo__fone {
+    display: none;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+  }
+
+  .topo__fone:hover {
+    color: var(--verde-400);
+  }
+
+  .topo__btn {
+    padding: 0.62rem 1.05rem;
+    font-size: 0.85rem;
+  }
+
+  /* Régua fina no pé da barra: primeira aparição do tema de medição. */
+  .topo__fio {
+    height: 3px;
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.22) 1px,
+      transparent 1px
+    );
+    background-size: 10px 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  @media (min-width: 1040px) {
+    .topo__nav,
+    .topo__fone {
+      display: flex;
+    }
+  }
+</style>

@@ -1,0 +1,106 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import '../styles/global.css';
+import { empresa } from '../dados';
+
+interface Props {
+  titulo: string;
+  descricao: string;
+}
+
+const { titulo, descricao } = Astro.props;
+const url = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : '';
+
+// O favicon e a imagem de compartilhamento entram no HTML apenas quando o
+// arquivo existe em public/img/. Enquanto não chegam, nada é referenciado e
+// o console fica sem requisição quebrada.
+const raiz = import.meta.env.BASE_URL.replace(/\/+$/, '');
+const base = Astro.site ?? new URL('https://feltrinsolucoes.com.br');
+const ehPreview = base.hostname.endsWith('github.io');
+const existe = (arquivo: string) =>
+  fs.existsSync(path.join(process.cwd(), 'public', 'img', arquivo));
+const favicon = existe('favicon.png') ? `${raiz}/img/favicon.png` : null;
+// Prefere a versão comprimida, igual ao componente Figura.
+const arquivoSocial = ['og-feltrin.jpg', 'og-feltrin.png'].find(existe);
+const imagemSocial = arquivoSocial
+  ? new URL(`${raiz}/img/${arquivoSocial}`, base).href
+  : null;
+
+// Schema enxuto: apenas o que está confirmado. Endereço, horário e CNPJ
+// entram depois que o Aldir passar os dados.
+const schema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: empresa.nomeCompleto,
+  description: descricao,
+  telephone: `+55${empresa.whatsapp.slice(2)}`,
+  url: url || 'https://feltrinsolucoes.com.br',
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={url} />
+    {
+      /* Enquanto roda no GitHub Pages é preview de aprovação: fora do índice,
+         para o rascunho não concorrer com o site do cliente no Google. A
+         trava some sozinha quando `site` virar o domínio final. */
+      ehPreview && <meta name="robots" content="noindex, nofollow" />
+    }
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:site_name" content={empresa.nomeCompleto} />
+    {imagemSocial && <meta property="og:image" content={imagemSocial} />}
+    {imagemSocial && <meta property="og:image:width" content="1200" />}
+    {imagemSocial && <meta property="og:image:height" content="630" />}
+    {imagemSocial && <meta name="twitter:image" content={imagemSocial} />}
+    {favicon && <link rel="icon" type="image/png" href={favicon} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="theme-color" content="#0B1626" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} is:inline />
+  </head>
+
+  <body>
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <slot />
+
+    <script>
+      // Revelação progressiva. Sem biblioteca, sem peso.
+      const alvos = document.querySelectorAll<HTMLElement>('.revela');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && alvos.length) {
+        const obs = new IntersectionObserver(
+          (entradas) => {
+            for (const e of entradas) {
+              if (e.isIntersecting) {
+                e.target.classList.add('visivel');
+                obs.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.08 }
+        );
+        alvos.forEach((a) => obs.observe(a));
+      } else {
+        alvos.forEach((a) => a.classList.add('visivel'));
+      }
+    </script>
+  </body>
+</html>

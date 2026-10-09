@@ -1,0 +1,74 @@
+---
+// Figura com placeholder automático.
+// Se o arquivo existir em public/, renderiza a imagem real.
+// Se não existir, renderiza um placeholder que imprime o caminho e a
+// especificação esperada. Assim as imagens entram depois sem tocar no código.
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  src: string; // caminho relativo à public/, ex: 'img/hero-oficina.png'
+  alt: string;
+  legenda?: string | null;
+  largura: number;
+  altura: number;
+  classe?: string;
+  prioridade?: boolean;
+  recorte?: string; // object-position
+}
+
+const {
+  src,
+  alt,
+  legenda = null,
+  largura,
+  altura,
+  classe = '',
+  prioridade = false,
+  recorte = 'center',
+} = Astro.props;
+
+const limpo = src.replace(/^\/+/, '');
+
+// Resolve o arquivo na ordem: primeiro a versão JPG gerada por
+// scripts/comprimir_imagens.py, depois o PNG original. Assim basta salvar o
+// PNG na pasta para a imagem aparecer, e rodar o script depois deixa o site
+// leve sem precisar mexer em nenhuma referência.
+const candidatos = [limpo.replace(/\.png$/i, '.jpg'), limpo];
+const encontrado = candidatos.find((arquivo) =>
+  fs.existsSync(path.join(process.cwd(), 'public', arquivo))
+);
+const existe = Boolean(encontrado);
+const arquivoFinal = encontrado ?? limpo;
+const raiz = import.meta.env.BASE_URL.replace(/\/+$/, '');
+const proporcao = `${largura} / ${altura}`;
+---
+
+<figure class={`figura ${classe}`}>
+  {
+    existe ? (
+      <div class="figura__quadro" style={`aspect-ratio: ${proporcao}`}>
+        <img
+          src={`${raiz}/${arquivoFinal}`}
+          alt={alt}
+          width={largura}
+          height={altura}
+          loading={prioridade ? 'eager' : 'lazy'}
+          decoding={prioridade ? 'sync' : 'async'}
+          fetchpriority={prioridade ? 'high' : 'auto'}
+          style={`object-position: ${recorte}`}
+        />
+      </div>
+    ) : (
+      <div class="ph" style={`aspect-ratio: ${proporcao}`}>
+        <span class="ph__tag">Imagem pendente</span>
+        <span class="ph__arq">/{limpo}</span>
+        <span class="ph__spec">
+          {largura} x {altura} px &middot; {(largura / altura).toFixed(2)}:1
+        </span>
+        <span class="ph__spec">{alt}</span>
+      </div>
+    )
+  }
+  {legenda && <figcaption class="figura__legenda">{legenda}</figcaption>}
+</figure>

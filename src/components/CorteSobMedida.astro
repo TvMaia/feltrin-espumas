@@ -1,0 +1,191 @@
+---
+// Seção 06 — Corte sob medida.
+// O segundo diferencial concreto. Aqui o leitor precisa entender que não
+// existe "medida estranha": existe medida que ele manda e a gente corta.
+import Figura from './Figura.astro';
+import Dado from './Dado.astro';
+import { numeros, zap } from '../dados';
+
+const formatos = [
+  { nome: 'Retângulo e quadrado', nota: 'Assento, encosto, painel, base de cama' },
+  { nome: 'Chanfro e bisel', nota: 'Encosto anatômico e acabamento de borda' },
+  { nome: 'Raio e canto arredondado', nota: 'Poltrona, cabeceira curva, puff' },
+  { nome: 'Recorte de braço', nota: 'Braço fechado, chaise, canto em L' },
+  { nome: 'Cilindro e rolo', nota: 'Apoio lombar, almofada de rolo, encosto tubular' },
+  { nome: 'Perfil escalonado', nota: 'Assento com densidade dupla e camada de conforto' },
+];
+
+const linkCorte = zap(
+  'Olá! Tenho as medidas prontas. Quero orçamento de espuma cortada sob medida.'
+);
+---
+
+<section class="secao" id="corte">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 04 / corte</span>
+      <div>
+        <p class="olho">Corte sob medida</p>
+        <h2 class="h-secao">
+          Você manda a medida.<br />
+          A peça chega pronta para o revestimento.
+        </h2>
+        <p class="lede" style="margin-top: 1.25rem">
+          Sem pacote fechado, sem tamanho padrão que você precisa aparar na oficina.
+          Se couber na máquina, a gente corta — inclusive peça única para conserto.
+        </p>
+      </div>
+    </div>
+
+    <div class="corte__grade">
+      <div>
+        <ul class="corte__formatos">
+          {
+            formatos.map((f, i) => (
+              <li class="corte__formato revela" style={`--atraso: ${i * 60}ms`}>
+                <span class="corte__formato-nome">{f.nome}</span>
+                <span class="corte__formato-nota">{f.nota}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="corte__specs">
+          <div class="corte__spec">
+            <span class="corte__spec-rot mono">Tolerância de corte</span>
+            <span class="corte__spec-val">
+              <Dado rotulo="tolerância em mm" />
+            </span>
+          </div>
+          <div class="corte__spec">
+            <span class="corte__spec-rot mono">Prazo de corte</span>
+            <span class="corte__spec-val">
+              <Dado valor={numeros.prazoCorte} rotulo="prazo de corte" />
+            </span>
+          </div>
+          <div class="corte__spec">
+            <span class="corte__spec-rot mono">Pedido mínimo</span>
+            <span class="corte__spec-val">
+              <Dado rotulo="pedido mínimo" />
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="corte__visual">
+        <Figura
+          src="img/corte-serra-fita.png"
+          alt="Operador conduzindo bloco de espuma na serra de fita vertical, seguindo linha marcada"
+          legenda="Corte conduzido na linha marcada, não no olho. A diferença aparece quando a peça assenta no caixão do sofá sem folga."
+          largura={2240}
+          altura={1680}
+        />
+        <Figura
+          src="img/corte-peca-chanfro.png"
+          alt="Peça de espuma cortada com chanfro limpo na borda, apoiada sobre a bancada"
+          legenda="Chanfro feito na máquina. É o acabamento que faz o revestimento cair reto na borda do encosto."
+          largura={2000}
+          altura={2000}
+        />
+      </div>
+    </div>
+
+    <div class="corte__cta">
+      <a class="btn" href={linkCorte} target="_blank" rel="noopener">
+        Enviar minhas medidas
+        <svg class="btn__seta" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14m-6-7 7 7-7 7" stroke="currentColor" stroke-width="2" />
+        </svg>
+      </a>
+      <p class="sob-btn">
+        Não tem as medidas ainda? A seção de medição mais abaixo resolve em 3 passos.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .corte__grade {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  .corte__formatos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+
+  .corte__formato {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 1rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .corte__formato:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .corte__formato-nome {
+    font-family: var(--display);
+    font-weight: 700;
+    font-stretch: 110%;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    flex: none;
+  }
+
+  .corte__formato-nota {
+    font-size: 0.85rem;
+    color: var(--cinza-500);
+  }
+
+  .corte__specs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+    padding-top: 1.75rem;
+    border-top: 2px solid var(--verde-600);
+  }
+
+  .corte__spec {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .corte__spec-rot {
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cinza-500);
+  }
+
+  .corte__spec-val {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.15rem;
+  }
+
+  .corte__visual {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .corte__cta {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  @media (min-width: 940px) {
+    .corte__grade {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    }
+  }
+</style>

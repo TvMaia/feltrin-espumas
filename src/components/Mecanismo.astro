@@ -1,0 +1,148 @@
+---
+// Seção 04 — O mecanismo.
+// É a seção mais importante do site. Ogilvy: a demonstração visível do que
+// sustenta a promessa. Sem ela, "densidade conferida" é só mais um adjetivo.
+// ATENÇÃO: o procedimento abaixo precisa ser confirmado passo a passo com o
+// Aldir. O argumento de controle por lote vem do FAQ do site atual dele.
+import Figura from './Figura.astro';
+
+const passos = [
+  {
+    cod: '01',
+    titulo: 'O bloco é pesado antes de virar peça',
+    texto:
+      'Volume a gente mede com fita. Massa a gente mede na balança. Densidade é massa dividida por volume — não é opinião, é conta. O bloco que não fecha a conta não entra no corte.',
+  },
+  {
+    cod: '02',
+    titulo: 'O lote recebe um código e fica registrado',
+    texto:
+      'Cada entrada recebe um código próprio. Se três meses depois você precisar da mesma espuma, é esse código que a gente procura — e não "aquela mais firme que você mandou da outra vez".',
+  },
+  {
+    cod: '03',
+    titulo: 'A etiqueta vai colada na peça cortada',
+    texto:
+      'A peça sai da serra com densidade, espessura e código do lote na etiqueta. O que está na etiqueta é o que está na nota. Se divergir, é nosso problema, não seu.',
+  },
+  {
+    cod: '04',
+    titulo: 'A medida é conferida antes de sair',
+    texto:
+      'Corte no esquadro, conferido na saída. A peça chega na sua bancada pronta para o revestimento, sem reaparo e sem sobra para ajustar no olho.',
+  },
+];
+---
+
+<section class="secao secao--escura-alt" id="mecanismo">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 02 / o mecanismo</span>
+      <div>
+        <p class="olho">Como a gente garante o que promete</p>
+        <h2 class="h-secao">
+          A densidade não é uma informação que a gente repassa.<br />
+          É uma conta que a gente faz.
+        </h2>
+        <p class="lede" style="margin-top: 1.25rem">
+          Quatro etapas entre o bloco que chega e a peça que você recebe. Nenhuma
+          delas depende de confiança: todas deixam registro.
+        </p>
+      </div>
+    </div>
+
+    <div class="mecanismo__grade">
+      <ol class="mecanismo__passos">
+        {
+          passos.map((p, i) => (
+            <li class="mecanismo__passo revela" style={`--atraso: ${i * 90}ms`}>
+              <span class="mecanismo__cod num">{p.cod}</span>
+              <div>
+                <h3 class="h-bloco">{p.titulo}</h3>
+                <p class="mecanismo__texto">{p.texto}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="mecanismo__visual">
+        <Figura
+          src="img/mecanismo-pesagem-bloco.png"
+          alt="Bloco de espuma sobre balança industrial, com prancheta de anotação ao lado"
+          legenda="Massa dividida por volume. É assim que se sabe a densidade de um bloco — e é a única forma que não depende da palavra de ninguém."
+          largura={1760}
+          altura={2200}
+        />
+        <Figura
+          src="img/mecanismo-etiqueta-lote.png"
+          alt="Etiqueta colada na peça de espuma cortada mostrando densidade, espessura e código do lote"
+          legenda="A etiqueta que acompanha a peça. Guarde: é por esse código que a gente repete exatamente a mesma espuma no próximo pedido."
+          largura={2240}
+          altura={1440}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mecanismo__grade {
+    display: grid;
+    gap: clamp(2.25rem, 4.5vw, 4rem);
+  }
+
+  .mecanismo__passos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: passo;
+  }
+
+  .mecanismo__passo {
+    display: grid;
+    grid-template-columns: 4.25rem minmax(0, 1fr);
+    gap: 0 1.5rem;
+    padding: 1.75rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .mecanismo__passo:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .mecanismo__cod {
+    font-size: 2.6rem;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--verde-400);
+    line-height: 0.85;
+  }
+
+  .mecanismo__texto {
+    margin: 0.7rem 0 0;
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.76);
+    max-width: 52ch;
+  }
+
+  .mecanismo__visual {
+    display: grid;
+    gap: 1.75rem;
+    align-content: start;
+  }
+
+  @media (min-width: 940px) {
+    .mecanismo__grade {
+      grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .mecanismo__passo {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>

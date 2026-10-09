@@ -1,0 +1,148 @@
+---
+// Seção 16 — Rodapé.
+// O site atual não tem rodapé nenhum: nem CNPJ, nem endereço, nem e-mail.
+// Para um fornecedor B2B isso é o primeiro sinal de que a empresa pode não
+// existir formalmente. O rodapé é item de confiança, não de decoração.
+import Dado from './Dado.astro';
+import { empresa, zap } from '../dados';
+
+const ano = new Date().getFullYear();
+const linkRodape = zap('Olá! Vim pelo site.');
+---
+
+<footer class="rodape">
+  <div class="regua" aria-hidden="true"></div>
+
+  <div class="caixa rodape__caixa">
+    <div class="rodape__marca">
+      <span class="rodape__nome">FELTRIN</span>
+      <span class="rodape__sub mono">Espumas &amp; Estofados</span>
+      <p class="rodape__frase">
+        Espuma com densidade conferida por lote e corte sob medida para quem
+        produz estofado e para quem precisa recuperar o seu.
+      </p>
+    </div>
+
+    <nav class="rodape__bloco" aria-label="Navegação do rodapé">
+      <h2 class="rodape__h">Seções</h2>
+      <a href="#problema">O problema da densidade</a>
+      <a href="#mecanismo">Como conferimos</a>
+      <a href="#densidades">Tabela de densidades</a>
+      <a href="#corte">Corte sob medida</a>
+      <a href="#medir">Como medir</a>
+      <a href="#duvidas">Dúvidas frequentes</a>
+    </nav>
+
+    <div class="rodape__bloco">
+      <h2 class="rodape__h">Contato</h2>
+      <a href={linkRodape} target="_blank" rel="noopener">
+        WhatsApp {empresa.telefone}
+      </a>
+      <span><Dado valor={empresa.email} rotulo="e-mail comercial" /></span>
+      <span><Dado valor={empresa.instagram} rotulo="Instagram" /></span>
+      <span><Dado valor={empresa.horario} rotulo="horário de funcionamento" /></span>
+    </div>
+
+    <div class="rodape__bloco">
+      <h2 class="rodape__h">Endereço</h2>
+      <span><Dado valor={empresa.endereco} rotulo="endereço completo" /></span>
+      <span><Dado valor={empresa.mapsUrl} rotulo="link do Google Maps" /></span>
+    </div>
+  </div>
+
+  <div class="caixa rodape__legal">
+    <span>
+      <Dado valor={empresa.razaoSocial} rotulo="razão social" /> &middot; CNPJ{' '}
+      <Dado valor={empresa.cnpj} rotulo="CNPJ" />
+    </span>
+    <span>&copy; {ano} {empresa.nomeCompleto}</span>
+  </div>
+</footer>
+
+<style>
+  .rodape {
+    background: var(--navy-900);
+    color: rgba(255, 255, 255, 0.72);
+    padding-bottom: 2rem;
+  }
+
+  .rodape .regua {
+    color: var(--verde-400);
+  }
+
+  .rodape__caixa {
+    display: grid;
+    gap: 2.25rem 2.5rem;
+    padding-top: clamp(2.75rem, 5vw, 4rem);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  }
+
+  .rodape__marca {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .rodape__nome {
+    font-family: var(--display);
+    font-weight: 800;
+    font-stretch: 122%;
+    font-size: 1.45rem;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--branco);
+  }
+
+  .rodape__sub {
+    font-size: 0.58rem;
+    letter-spacing: 0.21em;
+    text-transform: uppercase;
+    color: var(--cinza-500);
+  }
+
+  .rodape__frase {
+    margin: 1.1rem 0 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    max-width: 34ch;
+  }
+
+  .rodape__bloco {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+  }
+
+  .rodape__h {
+    margin: 0 0 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--verde-400);
+  }
+
+  .rodape__bloco a {
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .rodape__bloco a:hover {
+    color: var(--branco);
+  }
+
+  .rodape__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    margin-top: clamp(2.25rem, 4vw, 3rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--cinza-500);
+  }
+</style>

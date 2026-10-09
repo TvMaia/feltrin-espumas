@@ -1,0 +1,101 @@
+---
+// Seção 11 — Estofados como prova.
+// Resolve o conflito de canal do site atual: lá, material e estofados
+// apareciam lado a lado com o mesmo peso, o que dizia a cada estofaria que
+// o fornecedor dela também é concorrente. Aqui o estofado é subordinado ao
+// material: é a demonstração de que a espuma que vendemos aguenta o uso.
+import Figura from './Figura.astro';
+import Dado from './Dado.astro';
+import { trabalhos, zap } from '../dados';
+
+const linkReforma = zap('Olá! Vi os trabalhos no site. Quero orçamento de reforma.');
+---
+
+<section class="secao secao--clara" id="trabalhos">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 09 / prova aplicada</span>
+      <div>
+        <p class="olho">A mesma espuma, no nosso próprio trabalho</p>
+        <h2 class="h-secao">
+          A gente também estofa.<br />
+          É assim que sabemos o que o material aguenta.
+        </h2>
+        <p class="lede" style="margin-top: 1.25rem">
+          Não vendemos espuma por catálogo: usamos a nossa própria na oficina, todo
+          dia. Quando a gente recomenda uma densidade para o seu assento, é porque
+          já viu aquela espuma envelhecer em um estofado montado aqui dentro.
+        </p>
+      </div>
+    </div>
+
+    <div class="trab__grade">
+      {
+        trabalhos.map((t, i) => (
+          <div class="trab__item revela" style={`--atraso: ${i * 80}ms`}>
+            <Figura
+              src={t.foto}
+              alt={t.alt}
+              legenda={t.legenda ?? undefined}
+              largura={2000}
+              altura={1500}
+            />
+            {!t.legenda && (
+              <p class="trab__pendente">
+                Legenda:{' '}
+                <Dado rotulo={`densidade e aplicação do trabalho ${i + 1}`} />
+              </p>
+            )}
+          </div>
+        ))
+      }
+    </div>
+
+    <aside class="trab__nota">
+      <h3 class="h-bloco">Se você é estofador, leia isto</h3>
+      <p>
+        Nós estofamos, mas não disputamos a sua carteira. Quem chega aqui pedindo
+        reforma e é de fora da nossa rota de atendimento, nós indicamos — e quem
+        compra material da gente entra nessa lista de indicação. O nosso negócio
+        principal é o material; a oficina existe para provar que ele funciona.
+      </p>
+      <a class="btn btn--linha" href={linkReforma} target="_blank" rel="noopener">
+        Quero orçar uma reforma
+      </a>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .trab__grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .trab__pendente {
+    margin: 0.6rem 0 0;
+    font-size: 0.8rem;
+    color: var(--cinza-700);
+  }
+
+  .trab__nota {
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: var(--navy-800);
+    color: var(--branco);
+    border-left: 3px solid var(--verde-600);
+  }
+
+  .trab__nota p {
+    margin: 0.85rem 0 1.5rem;
+    font-size: 0.97rem;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 62ch;
+  }
+
+  .trab__nota .btn--linha {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+</style>

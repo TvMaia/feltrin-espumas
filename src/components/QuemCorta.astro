@@ -1,0 +1,120 @@
+---
+// Seção 12 — Quem corta a sua espuma.
+// O site atual não tem uma única pessoa. Negócio técnico de bairro vende
+// pelo rosto de quem responde. Ogilvy: pessoa real, foto real, legenda real.
+import Figura from './Figura.astro';
+import Dado from './Dado.astro';
+import { empresa } from '../dados';
+---
+
+<section class="secao secao--escura-alt" id="quem">
+  <div class="caixa">
+    <div class="quem__grade">
+      <Figura
+        src="img/aldir-retrato-oficina.png"
+        alt="Aldir Feltrin na oficina, ao lado da serra de corte, com peças de espuma na bancada"
+        legenda="Aldir Feltrin, na oficina. É ele que responde o WhatsApp e é ele que confere o lote antes de liberar o corte."
+        largura={1760}
+        altura={2200}
+      />
+
+      <div>
+        <div class="cabeca" style="margin-bottom: 1.75rem">
+          <span class="cabeca__lote">Lote 10 / quem faz</span>
+          <div>
+            <p class="olho">Quem atende você</p>
+            <h2 class="h-secao">
+              Aqui não existe central de atendimento.
+            </h2>
+          </div>
+        </div>
+
+        <div class="corpo quem__corpo">
+          <p>
+            Quem responde a sua mensagem é a mesma pessoa que vai conferir o seu
+            lote e acompanhar o seu corte. Isso tem uma desvantagem — às vezes a
+            resposta demora alguns minutos porque a máquina está ligada — e uma
+            vantagem que compensa: não existe informação perdida entre o vendedor
+            e a produção.
+          </p>
+          <p>
+            A Feltrin trabalha com espuma há{' '}
+            <Dado valor={empresa.anosMercado} rotulo="anos de mercado" />. Começou
+            atendendo estofarias do bairro e continua atendendo as mesmas, o que
+            explica por que o controle de lote existe: num mercado onde todo mundo
+            se conhece, errar a densidade de um cliente custa cinco.
+          </p>
+          <p>
+            <strong>
+              Se você quiser ver antes de comprar, apareça na oficina.
+            </strong>{' '}
+            As amostras ficam na bancada, você aperta com a mão, compara duas
+            densidades lado a lado e decide com o material na frente — não pelo
+            nome no catálogo.
+          </p>
+        </div>
+
+        <dl class="quem__ficha">
+          <div>
+            <dt class="mono">Endereço</dt>
+            <dd><Dado valor={empresa.endereco} rotulo="endereço completo" /></dd>
+          </div>
+          <div>
+            <dt class="mono">Horário</dt>
+            <dd><Dado valor={empresa.horario} rotulo="horário de funcionamento" /></dd>
+          </div>
+          <div>
+            <dt class="mono">WhatsApp</dt>
+            <dd>{empresa.telefone}</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .quem__grade {
+    display: grid;
+    gap: clamp(2rem, 4.5vw, 3.75rem);
+    align-items: start;
+  }
+
+  .quem__corpo p {
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .quem__ficha {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+    gap: 1.25rem;
+    margin: 2rem 0 0;
+    padding-top: 1.75rem;
+    border-top: 2px solid var(--verde-600);
+  }
+
+  .quem__ficha div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .quem__ficha dt {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cinza-500);
+  }
+
+  .quem__ficha dd {
+    margin: 0;
+    font-size: 0.93rem;
+    line-height: 1.45;
+  }
+
+  @media (min-width: 900px) {
+    .quem__grade {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    }
+  }
+</style>

@@ -1,0 +1,176 @@
+---
+// Seção 09 — Roteamento de público.
+// Correção de um erro grave do site atual: o cartão B2B era titulado
+// "Fornecedores" quando o fornecedor é o Aldir e eles são clientes.
+// Aqui cada porta diz quem entra por ela, na linguagem de quem entra.
+import Figura from './Figura.astro';
+import { zap } from '../dados';
+
+const linkB2B = zap(
+  'Olá! Produzo estofados e quero cotar espuma com laudo de densidade e corte sob medida.'
+);
+const linkB2C = zap(
+  'Olá! Quero reformar um estofado meu. Pode me passar um orçamento?'
+);
+---
+
+<section class="secao" id="publico">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 07 / público</span>
+      <div>
+        <p class="olho">Duas portas, dois atendimentos</p>
+        <h2 class="h-secao">Você vem comprar material ou resolver um estofado?</h2>
+        <p class="lede" style="margin-top: 1.25rem">
+          São conversas diferentes. Escolha a sua e o atendimento já começa no
+          assunto certo, sem você ter que explicar tudo de novo.
+        </p>
+      </div>
+    </div>
+
+    <div class="pub__grade">
+      <article class="pub__porta revela">
+        <span class="pub__tag mono">Para quem produz</span>
+        <Figura
+          src="img/publico-estofaria.png"
+          alt="Interior de estofaria com bancada de trabalho, peças de espuma cortadas e tecido em rolo"
+          largura={2000}
+          altura={1500}
+        />
+        <h3 class="h-bloco pub__titulo">
+          Estofarias, marcenarias, fábricas e lojas de móveis
+        </h3>
+        <p class="pub__texto">
+          Você precisa que o lote de hoje se comporte igual ao de três meses atrás.
+          Fornecemos espuma com densidade conferida, corte na sua medida e reposição
+          na mesma especificação — com preço de quem compra volume.
+        </p>
+        <ul class="pub__lista">
+          <li>Densidade conferida por lote, com etiqueta na peça</li>
+          <li>Corte sob medida, no esquadro, pronto para revestir</li>
+          <li>Recompra pelo código do lote anterior</li>
+          <li>Condição comercial para quem compra recorrente</li>
+        </ul>
+        <a class="btn" href={linkB2B} target="_blank" rel="noopener">
+          Cotar material para produção
+          <svg class="btn__seta" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14m-6-7 7 7-7 7" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </a>
+      </article>
+
+      <article class="pub__porta pub__porta--b revela" style="--atraso: 110ms">
+        <span class="pub__tag mono">Para quem usa</span>
+        <Figura
+          src="img/publico-residencia.png"
+          alt="Sala de estar com sofá recém-reformado, almofadas firmes e boa luz natural"
+          largura={2000}
+          altura={1500}
+        />
+        <h3 class="h-bloco pub__titulo">
+          Sua casa, seu consultório, seu salão
+        </h3>
+        <p class="pub__texto">
+          O sofá que afundou não precisa ir para o lixo. Trocamos a espuma pela
+          densidade adequada ao uso real dele e devolvemos o assento firme — pela
+          fração do preço de um sofá novo da mesma qualidade.
+        </p>
+        <ul class="pub__lista">
+          <li>Troca de espuma de assento e encosto</li>
+          <li>Reforma completa com troca de revestimento</li>
+          <li>Cabeceira, poltrona, puff e banco sob medida</li>
+          <li>Orçamento pelo WhatsApp, com foto e medida</li>
+        </ul>
+        <a class="btn btn--linha" href={linkB2C} target="_blank" rel="noopener">
+          Orçar reforma do meu estofado
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pub__grade {
+    display: grid;
+    gap: clamp(1.75rem, 3.5vw, 2.75rem);
+  }
+
+  .pub__porta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: clamp(1.4rem, 2.8vw, 2.1rem);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 3px solid var(--verde-600);
+  }
+
+  .pub__porta--b {
+    border-top-color: var(--espuma-400);
+  }
+
+  .pub__tag {
+    font-size: 0.62rem;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--verde-400);
+  }
+
+  .pub__porta--b .pub__tag {
+    color: var(--espuma-400);
+  }
+
+  .pub__titulo {
+    margin-top: 0.3rem;
+  }
+
+  .pub__texto {
+    margin: 0;
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .pub__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  .pub__lista li {
+    position: relative;
+    padding-left: 1.4rem;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .pub__lista li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.58em;
+    width: 0.55rem;
+    height: 1px;
+    background: var(--verde-400);
+  }
+
+  .pub__porta--b .pub__lista li::before {
+    background: var(--espuma-400);
+  }
+
+  .pub__porta .btn {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+
+  @media (min-width: 880px) {
+    .pub__grade {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

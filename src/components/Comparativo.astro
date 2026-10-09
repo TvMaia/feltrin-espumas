@@ -1,0 +1,160 @@
+---
+// Seção 08 — Comparativo.
+// Não aponta concorrente: aponta prática. O leitor se reconhece na coluna
+// da esquerda porque já viveu aquilo, e é ele mesmo quem conclui.
+const linhas = [
+  {
+    criterio: 'Densidade informada',
+    comum: 'Vem no nome do produto, sem conferência',
+    feltrin: 'Conferida por lote na balança antes do corte',
+  },
+  {
+    criterio: 'Repetição de pedido',
+    comum: '"Aquela mais firme da última vez"',
+    feltrin: 'Código de lote registrado e recuperável',
+  },
+  {
+    criterio: 'Medida',
+    comum: 'Bloco padrão, você apara na oficina',
+    feltrin: 'Cortada na sua medida, no esquadro',
+  },
+  {
+    criterio: 'O que acompanha a peça',
+    comum: 'Nada além da nota',
+    feltrin: 'Etiqueta com densidade, espessura e lote',
+  },
+  {
+    criterio: 'Quem atende',
+    comum: 'Vendedor que não entra na produção',
+    feltrin: 'Quem opera a máquina e corta a sua peça',
+  },
+  {
+    criterio: 'Divergência no pedido',
+    comum: 'Discussão sobre quem está certo',
+    feltrin: 'A etiqueta resolve: se não bater, é nosso',
+  },
+];
+---
+
+<section class="secao secao--preta" id="comparativo">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 06 / comparação</span>
+      <div>
+        <p class="olho">A diferença que aparece na segunda compra</p>
+        <h2 class="h-secao">
+          O preço por metro cúbico é fácil de comparar.<br />
+          O resto é o que custa caro depois.
+        </h2>
+      </div>
+    </div>
+
+    <div class="comp">
+      <div class="comp__cabeca">
+        <span></span>
+        <span class="comp__col-rot">Como normalmente é</span>
+        <span class="comp__col-rot comp__col-rot--nosso">Como é aqui</span>
+      </div>
+
+      {
+        linhas.map((l, i) => (
+          <div class="comp__linha revela" style={`--atraso: ${i * 55}ms`}>
+            <span class="comp__crit">{l.criterio}</span>
+            <span class="comp__comum">
+              <svg class="comp__ico" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M4 4l8 8M12 4l-8 8" stroke="#C0392B" stroke-width="2" />
+              </svg>
+              {l.comum}
+            </span>
+            <span class="comp__nosso">
+              <svg class="comp__ico" viewBox="0 0 16 16" aria-hidden="true">
+                <path
+                  d="M3 8.5l3.4 3.5L13 5"
+                  stroke="var(--verde-400)"
+                  stroke-width="2"
+                  fill="none"
+                />
+              </svg>
+              {l.feltrin}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .comp {
+    border-top: 2px solid var(--verde-600);
+  }
+
+  .comp__cabeca,
+  .comp__linha {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1rem 1.75rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    align-items: start;
+  }
+
+  .comp__cabeca {
+    padding: 0.85rem 0;
+  }
+
+  .comp__col-rot {
+    font-family: var(--mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cinza-500);
+  }
+
+  .comp__col-rot--nosso {
+    color: var(--verde-400);
+  }
+
+  .comp__crit {
+    font-family: var(--display);
+    font-weight: 700;
+    font-stretch: 110%;
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .comp__comum,
+  .comp__nosso {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  .comp__comum {
+    color: var(--cinza-500);
+  }
+
+  .comp__nosso {
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .comp__ico {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.22em;
+  }
+
+  @media (max-width: 760px) {
+    .comp__cabeca {
+      display: none;
+    }
+
+    .comp__linha {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+      padding: 1.25rem 0;
+    }
+  }
+</style>

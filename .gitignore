@@ -1,0 +1,10 @@
+node_modules
+dist
+.astro
+
+# Os PNG originais das imagens ficam apenas na pasta do Drive, como arquivo-
+# fonte. O que vai ao ar e para o repositório são os JPG gerados por
+# scripts/comprimir_imagens.py (47 MB viram 3 MB). O favicon segue em PNG
+# porque precisa de fundo transparente.
+public/img/*.png
+!public/img/favicon.png

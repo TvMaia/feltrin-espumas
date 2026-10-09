@@ -1,0 +1,28 @@
+---
+// Imprime um dado do negócio ou, se ainda não confirmado, um marcador visível.
+// Regra: nenhum número inventado entra no site. O que falta aparece marcado
+// para o Aldir preencher antes de publicar.
+interface Props {
+  valor?: string | number | null;
+  rotulo: string; // o que precisa ser confirmado, ex: 'anos de mercado'
+  prefixo?: string;
+  sufixo?: string;
+}
+
+const { valor = null, rotulo, prefixo = '', sufixo = '' } = Astro.props;
+const vazio = valor === null || valor === undefined || valor === '';
+---
+
+{
+  vazio ? (
+    <span class="pendente" title={`Dado pendente: ${rotulo}`}>
+      [{rotulo}]
+    </span>
+  ) : (
+    <span>
+      {prefixo}
+      {valor}
+      {sufixo}
+    </span>
+  )
+}

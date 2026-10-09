@@ -1,0 +1,263 @@
+---
+// Seção 05 — Tabela de densidades.
+// Ogilvy: copy útil fora da venda engaja mais. Esta é a seção que faz o
+// estofador salvar o link: um guia de aplicação por densidade.
+// ATENÇÃO: cada linha precisa do aval técnico do Aldir (campo `confirmado`).
+import Figura from './Figura.astro';
+import { densidades, zap } from '../dados';
+
+// A barra é o próprio número da densidade normalizado. Não é um índice
+// inventado de firmeza: é o valor do código, visualizado.
+const valores = densidades.map((d) => Number(d.cod.replace(/\D/g, '')));
+const minimo = 14;
+const maximo = 50;
+const larguraDe = (v: number) =>
+  Math.round(((v - minimo) / (maximo - minimo)) * 100);
+
+const pendentes = densidades.filter((d) => !d.confirmado).length;
+const linkTabela = zap(
+  'Olá! Vi a tabela de densidades no site. Quero ajuda para escolher a densidade certa para a minha aplicação.'
+);
+---
+
+<section class="secao secao--espuma" id="densidades">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 03 / densidades</span>
+      <div>
+        <p class="olho">Guia de aplicação</p>
+        <h2 class="h-secao">
+          Qual densidade usar em cada coisa.<br />
+          Sem precisar perguntar para o vendedor.
+        </h2>
+        <p class="lede" style="margin-top: 1.25rem">
+          Densidade não é sinônimo de qualidade: é adequação ao uso. Espuma firme
+          demais no encosto fica desconfortável, espuma macia demais no assento
+          cede. A tabela abaixo é a que usamos aqui dentro para fechar pedido.
+        </p>
+      </div>
+    </div>
+
+    {
+      pendentes > 0 && (
+        <p class="aviso mono">
+          Pré-publicação: {pendentes} de {densidades.length} linhas aguardam o aval
+          técnico do Aldir. Nenhuma recomendação vai ao ar sem confirmação.
+        </p>
+      )
+    }
+
+    <div class="tabela" role="table" aria-label="Guia de densidade por aplicação">
+      <div class="tabela__cabeca" role="row">
+        <span role="columnheader">Densidade</span>
+        <span role="columnheader">Firmeza relativa</span>
+        <span role="columnheader">Onde ela funciona bem</span>
+        <span role="columnheader">Espessuras</span>
+      </div>
+
+      {
+        densidades.map((d, i) => (
+          <div
+            class={`tabela__linha revela ${d.confirmado ? '' : 'tabela__linha--pendente'}`}
+            style={`--atraso: ${i * 55}ms`}
+            role="row"
+          >
+            <span class="tabela__cod num" role="cell">
+              {d.cod}
+            </span>
+            <span class="tabela__barra-cel" role="cell">
+              <span class="tabela__barra">
+                <span
+                  class="tabela__barra-fill"
+                  style={`--largura: ${larguraDe(valores[i])}%; --atraso-barra: ${i * 70 + 160}ms`}
+                />
+              </span>
+            </span>
+            <span class="tabela__uso" role="cell">
+              {d.uso}
+            </span>
+            <span class="tabela__esp mono" role="cell">
+              {d.espessuras ?? 'a confirmar'}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="densidades__pe">
+      <Figura
+        src="img/densidade-amostras-fileira.png"
+        alt="Fileira de amostras de espuma de densidades diferentes alinhadas sobre bancada de madeira, cada uma com etiqueta de código"
+        legenda="As amostras que ficam na bancada. Dá para apertar com a mão e sentir a diferença entre D20 e D33 antes de fechar o pedido — e é o que recomendamos fazer."
+        largura={2880}
+        altura={1600}
+      />
+
+      <div class="densidades__ajuda">
+        <h3 class="h-bloco">Na dúvida entre duas, mande a aplicação</h3>
+        <p>
+          Diga o que você vai estofar, quantas horas por dia aquilo é usado e qual
+          o peso médio de quem senta. A densidade certa sai da conversa em dois
+          minutos — e se a escolha for a mais barata das duas, a gente fala.
+        </p>
+        <a class="btn" href={linkTabela} target="_blank" rel="noopener">
+          Tirar dúvida de densidade
+          <svg class="btn__seta" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14m-6-7 7 7-7 7" stroke="currentColor" stroke-width="2" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .aviso {
+    margin: 0 0 1.75rem;
+    padding: 0.7rem 1rem;
+    background: rgba(255, 196, 0, 0.26);
+    border-left: 3px solid #C79200;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #6B4F00;
+  }
+
+  .tabela {
+    border-top: 2px solid var(--navy-900);
+  }
+
+  .tabela__cabeca,
+  .tabela__linha {
+    display: grid;
+    grid-template-columns: 4.5rem 7.5rem minmax(0, 1fr) 8rem;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid rgba(7, 15, 27, 0.14);
+  }
+
+  .tabela__cabeca {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cinza-700);
+    padding-bottom: 0.6rem;
+    border-bottom-color: rgba(7, 15, 27, 0.3);
+  }
+
+  .tabela__linha {
+    transition: background 200ms ease;
+  }
+
+  .tabela__linha:hover {
+    background: rgba(255, 255, 255, 0.45);
+  }
+
+  .tabela__linha--pendente {
+    opacity: 0.62;
+  }
+
+  .tabela__cod {
+    font-size: 1.5rem;
+    color: var(--navy-800);
+  }
+
+  .tabela__barra {
+    display: block;
+    height: 9px;
+    background: rgba(7, 15, 27, 0.1);
+    overflow: hidden;
+  }
+
+  .tabela__barra-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: var(--verde-700);
+  }
+
+  .visivel .tabela__barra-fill,
+  .tabela__linha.visivel .tabela__barra-fill {
+    animation: enche 900ms cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+    animation-delay: var(--atraso-barra, 0ms);
+  }
+
+  @keyframes enche {
+    to {
+      width: var(--largura);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tabela__barra-fill {
+      width: var(--largura);
+      animation: none;
+    }
+  }
+
+  .tabela__uso {
+    font-size: 0.93rem;
+    line-height: 1.45;
+    color: var(--cinza-700);
+  }
+
+  .tabela__esp {
+    font-size: 0.78rem;
+    color: var(--cinza-700);
+  }
+
+  .densidades__pe {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    margin-top: clamp(2.5rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+
+  .densidades__ajuda h3 {
+    margin-bottom: 0.8rem;
+  }
+
+  .densidades__ajuda p {
+    margin: 0 0 1.5rem;
+    font-size: 0.97rem;
+    line-height: 1.6;
+    color: var(--cinza-700);
+    max-width: 44ch;
+  }
+
+  @media (min-width: 940px) {
+    .densidades__pe {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    }
+  }
+
+  @media (max-width: 720px) {
+    .tabela__cabeca {
+      display: none;
+    }
+
+    .tabela__linha {
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      grid-template-areas:
+        'cod uso'
+        'barra barra'
+        'esp esp';
+      gap: 0.5rem 1rem;
+      padding: 1.1rem 0;
+    }
+
+    .tabela__cod {
+      grid-area: cod;
+    }
+    .tabela__uso {
+      grid-area: uso;
+    }
+    .tabela__barra-cel {
+      grid-area: barra;
+    }
+    .tabela__esp {
+      grid-area: esp;
+    }
+  }
+</style>

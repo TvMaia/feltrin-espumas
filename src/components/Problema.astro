@@ -1,0 +1,118 @@
+---
+// Seção 03 — O problema.
+// Ogilvy, formato problema-solução: mostrar a dor que o leitor reconhece,
+// com fatos e não com drama. Aqui o inimigo não é o cliente: é a espuma
+// vendida por nome e entregue por outro.
+import Figura from './Figura.astro';
+---
+
+<section class="secao secao--clara" id="problema">
+  <div class="caixa">
+    <div class="cabeca">
+      <span class="cabeca__lote">Lote 01 / o problema</span>
+      <div>
+        <p class="olho">Por que a espuma certa afunda em seis meses</p>
+        <h2 class="h-secao">
+          Ninguém reclama da espuma na hora da compra.<br />
+          Reclama seis meses depois, com o cliente dentro da loja.
+        </h2>
+      </div>
+    </div>
+
+    <div class="problema__grade">
+      <div class="corpo problema__texto">
+        <p>
+          O pedido saiu como D33. A nota veio como D33. O bloco parecia D33 na
+          bancada. Só que a espuma afundou no inverno seguinte, o assento ficou com
+          a marca de quem senta sempre no mesmo canto, e a conversa difícil não é
+          com o fornecedor: é com o cliente que pagou por um sofá novo.
+        </p>
+        <p>
+          <strong>Densidade não se confere no olho nem na mão.</strong> Dois blocos
+          do mesmo tamanho podem ter 15% de diferença de massa e parecer idênticos
+          na prateleira. A diferença só aparece depois, quando a célula já cedeu e o
+          estofado já está na casa de alguém.
+        </p>
+        <p>
+          Quem produz estofado sabe o custo real desse erro: não é o preço do bloco.
+          É a mão de obra de desmontar, o material novo, o frete de ida e volta e a
+          indicação que não vem mais. Uma espuma 8% mais barata que volta uma vez
+          já saiu mais caro que o lote inteiro.
+        </p>
+        <ul class="problema__lista">
+          <li>Bloco faturado em uma densidade e entregue em outra</li>
+          <li>Lote novo com comportamento diferente do lote anterior</li>
+          <li>Medida que chega fora do esquadro e precisa ser reaparada na oficina</li>
+          <li>Reposição que atrasa e para a produção no meio da semana</li>
+          <li>Fornecedor que não dá nada por escrito quando o problema aparece</li>
+        </ul>
+      </div>
+
+      <div class="problema__visual">
+        <Figura
+          src="img/problema-assento-afundado.png"
+          alt="Assento de sofá com depressão permanente na espuma, marcada pelo uso"
+          legenda="O afundamento permanente no assento: a assinatura de uma espuma com densidade abaixo da especificada para aquele uso."
+          largura={2000}
+          altura={1500}
+        />
+        <Figura
+          src="img/problema-macro-celula.png"
+          alt="Macro do corte de dois pedaços de espuma lado a lado, com estruturas de célula visivelmente diferentes"
+          legenda="Dois cortes, duas estruturas de célula. O da direita tem mais ar e menos material — e é o que cede primeiro."
+          largura={2000}
+          altura={1500}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .problema__grade {
+    display: grid;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .problema__lista {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .problema__lista li {
+    position: relative;
+    padding-left: 1.65rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--cinza-700);
+  }
+
+  /* Marcador em X: o que não deve acontecer. */
+  .problema__lista li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.52em;
+    width: 0.62rem;
+    height: 0.62rem;
+    background:
+      linear-gradient(to bottom right, transparent 44%, #C0392B 44%, #C0392B 56%, transparent 56%),
+      linear-gradient(to bottom left, transparent 44%, #C0392B 44%, #C0392B 56%, transparent 56%);
+  }
+
+  .problema__visual {
+    display: grid;
+    gap: 1.75rem;
+    align-content: start;
+  }
+
+  @media (min-width: 900px) {
+    .problema__grade {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+      align-items: start;
+    }
+  }
+</style>
